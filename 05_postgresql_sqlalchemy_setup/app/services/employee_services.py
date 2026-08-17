@@ -10,5 +10,12 @@ class EmployeeServices:
 
         return employees
 
+    async def get_employees_pagination(self, db: AsyncSession, page: int, limit: int):
+        skip = (page - 1) * limit
+        result = await db.execute(select(Employee).offset(skip).limit(skip))
+        employees = result.scalars().all()
+
+        return employees
+
 
 employee_services = EmployeeServices()
